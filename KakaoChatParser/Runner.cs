@@ -2,16 +2,26 @@
 
 namespace KakaoChatParser
 {
+    /// <summary>
+    /// The runner class used for the tool.
+    /// </summary>
     internal class Runner
     {
         private readonly string OutputFileName = "output.csv";
         private readonly Options options;
 
+        /// <summary>
+        /// Creates the runner class for the tool.
+        /// </summary>
+        /// <param name="options">The command line <see cref="Options"/>.</param>
         public Runner(Options options)
         {
             this.options = options;
         }
 
+        /// <summary>
+        /// Starts the runner.
+        /// </summary>
         public void Run()
         {
             var dictionary = new Dictionary<string, int>();
@@ -34,12 +44,14 @@ namespace KakaoChatParser
                         {
                             var date = Utilities.ParseDate(ln, SupportedDateFormat.EnglishFormat);
 
+                            // If the exact first date is missing, get the next closest one.
                             if (IsFirstDate(date, firstDate))
                             {
                                 sawFirstDate = true;
                             }
                         }
 
+                        // Continue until the first date is seen.
                         continue;
                     }
 
@@ -55,6 +67,7 @@ namespace KakaoChatParser
                         {
                             var date = Utilities.ParseDate(ln, SupportedDateFormat.EnglishFormat);
 
+                            // If the exact end date is missing, get the next closest one.
                             if (IsEndDate(date, endDate))
                             {
                                 sawEndDate = true;
