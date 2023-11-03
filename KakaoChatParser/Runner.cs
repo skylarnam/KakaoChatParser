@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using KakaoChatParser.Formats;
+using System.Text.RegularExpressions;
 
 namespace KakaoChatParser
 {
@@ -78,9 +79,13 @@ namespace KakaoChatParser
                 }
             }
 
-            var sortedDict = dictionary.OrderByDescending(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
             var outputPath = Path.Combine(options.OutputPath, OutputFileName);
-            sortedDict.WriteToCSV(outputPath);
+
+            var outputs = new List<Output>();
+            outputs.AddRange(dictionary.Select(x => new Output(x.Key, x.Value)));
+
+            var orderedOutputs = outputs.OrderByDescending(x => x.ChatCount);
+            orderedOutputs.WriteToCSV(outputPath);
 
             Console.WriteLine($"Ran the program and saved the final output to: {outputPath}");
         }
