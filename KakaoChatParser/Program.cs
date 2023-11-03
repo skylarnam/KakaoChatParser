@@ -14,7 +14,8 @@ public class Program
     /// <exception cref="ArgumentException">When the parser fails to parse arguments.</exception>
     public static void Main(string[] args)
     {
-        Parser.Default.ParseArguments<Options>(args)
+        var parser = new Parser(settings => settings.CaseSensitive = false);
+        parser.ParseArguments<Options>(args)
             .WithParsed(Run)
             .WithNotParsed(e => throw new ArgumentException());
     }

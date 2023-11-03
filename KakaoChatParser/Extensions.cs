@@ -1,4 +1,5 @@
 ﻿using CsvHelper;
+using KakaoChatParser.Formats;
 using System.Globalization;
 using System.Text;
 
@@ -32,14 +33,14 @@ namespace KakaoChatParser
         /// </summary>
         /// <typeparam name="TKey">The key.</typeparam>
         /// <typeparam name="TValue">The value.</typeparam>
-        /// <param name="dictionary">The <see cref="IDictionary{TKey, TValue}"/>.</param>
+        /// <param name="output">The <see cref="IEnumerable<Output>"/>.</param>
         /// <param name="outputPath">The output path.</param>
-        internal static void WriteToCSV<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, string outputPath)
+        internal static void WriteToCSV(this IEnumerable<Output> output, string outputPath)
         {
             using (var writer = new StreamWriter(outputPath, false, Encoding.UTF8))
             using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
             {
-                csv.WriteRecords(dictionary);
+                csv.WriteRecords(output);
             }
         }
     }
